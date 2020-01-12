@@ -1,0 +1,26 @@
+{% extends "base_template.html" %}
+
+{% block title %}
+	Actors
+{% endblock %}
+
+{% block main-jumpers %}
+	<li><a href="{% url 'actor_list_url' %}">Актеры и режиссры</a></li>
+{% endblock %}
+
+{% block content %}
+	<div class="content">
+	{% for actor in actor_list %}
+		<div style="grid-column:1/4;" class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+	        <div class="col p-4 d-flex flex-column position-static">
+	          <h3 class="mb-0">{{actor.name}}</h3>
+	          <div class="mb-1 text-muted">Возраст: {{actor.age}}</div>
+	          <p class="card-text mb-auto">{{actor.description}}</p>
+	        </div>
+	        <div class="col-auto d-none d-lg-block">
+	          <img src="{{actor.image.url}}" alt="{{actor.name}}">
+	        </div>
+	      </div>
+  	{% endfor %}
+  	</div>
+{% endblock %}

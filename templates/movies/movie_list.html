@@ -1,0 +1,40 @@
+{% extends "base_template.html" %}		
+
+{% block title %}
+	Movie
+{% endblock %}
+
+
+
+{% block content %}
+	{% if not movie_list %}
+			
+					<div class="error">
+						<h3>По вашему запросу ничего не найдено </h3>					
+					</div>
+	
+
+	{% endif %}
+	<div class="content grid">
+		{% if movie_list %}
+			{% for movie in movie_list %}
+				<div class="list_items grid">
+					<div class="image-item">
+						<img src="{{movie.poster.url}}" alt="img">
+					</div>
+					<div class="title">
+						<a href="{{movie.get_absolute_url}}">{{ movie.title }}</a>
+					</div>
+					<div class="rating">
+						5 звезд
+					</div>
+
+				</div>
+			{% endfor %}
+	
+		{% endif %}
+		
+
+		
+	</div>
+{% endblock content %}

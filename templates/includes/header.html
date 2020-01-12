@@ -1,0 +1,50 @@
+{% load static %}
+
+<header style="background-image: url({% static 'image/header.jpg' %});">
+	<div class="navigation grid">
+		<ul>
+			<li><a href="{% url 'movie_list_url' %}">Главная</a></li>
+			<li><a href="{% url 'actor_list_url' %}">Актеры и режиссеры</a></li>
+			
+			{% if request.user.is_authenticated %}
+			<li  class="nav-item dropdown">
+				<a style="padding:0;" onclick="on_drop()" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{request.user.username}}
+				</a>
+				<div id="Dropdown" class="dropdowm-menu" >
+					{% if request.user.is_staff %}
+						<a class="dropdown-item" href="/admin/">Admin-panel</a>
+						<div class="dropdown-divider"></div>
+					{% endif %}
+						<a class="dropdown-item" href="{% url 'logout_url' %}">Выйти</a>
+
+					
+					
+					
+				</div>
+			</li>
+			<i style="float:right;" class="fas 
+				{% if request.user.is_staff %}
+					fa-user-tie
+				{% else %}
+					fa-user-circle
+				{% endif %}"></i>
+			
+			{% else %}
+				<li><a onclick="user_login()" id="login_btn">Войти</a></li>				
+			{% endif %}
+
+			
+
+		</ul>
+	</div>
+	<script>
+		function on_drop(){
+			var drop = document.getElementById("Dropdown");
+		
+			drop.style.height = ' 90px ';
+			drop.style.display = 'block';
+			drop.style.padding = '5px';
+		}
+	</script>
+</header>

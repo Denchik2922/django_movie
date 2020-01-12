@@ -1,0 +1,219 @@
+{% extends "base_template.html" %}
+
+
+{% block title %}
+	{{movie.title}}
+{% endblock %}
+
+
+{% block jumpers %}
+	<li><i class="fas fa-angle-right"></i></li>
+	<li><a href="{{movie.get_absolute_url}}">{{movie.title}}</a></li>
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="content-detail grid">
+	<div class="info-movie grid">
+		<img src="{{movie.poster.url}}" alt="img">
+		<div class="info">
+			<ul>
+				<li><b>Название:</b> {{movie.title}}</li>
+				<li><b>Дата выхода:</b> {{movie.year}}</li>
+				<li><b>Страна:</b> {{movie.country}}</li>
+				<li><b>Режисер:</b>
+					{% for directors in movie.directors.all %}
+						{{directors}};
+					{% endfor %}
+				</li>
+				<li><b>Жанр:</b>
+					{% for ganres in movie.ganres.all %}
+						{{ganres}};
+					{% endfor %}
+				</li>
+				<li><b>Актеры:</b>
+					{% for actors in movie.actors.all %}
+					 	{{actors}};
+					{% endfor %}
+				</li>
+				<li><b>Премьера в мире:</b> {{movie.world_premiere}}</li>
+				<li><b>Бюджет:</b> {{movie.budget}} $</li>
+				<li><b>Сборы в Мире:</b> {{movie.fees_in_world}} $</li>
+				<li><b>Сборы в США:</b> {{movie.fees_in_usa}} $</li>
+
+
+			</ul>
+		</div>
+	</div>
+	<div class="story-movie grid">
+		<h2>Сюжет</h2>
+		<p>{{movie.description}}</p>	
+	</div>
+	<div id="movie-shots" class="movie-shots grid">
+		<h2>Кадры из фильма</h2>
+		{% if movie.movieshots_set.all.count > 0 %}
+		{% for image in movie.movieshots_set.all %}
+			<img src="{{image.image.url}}" alt="{{image.title}}">
+		{% endfor %}
+		{% else %}
+			<p style="padding-top:30px; font-size:20px; "><b>Кадров из фильма не нашлось!</b></p>
+		{% endif %}	
+		
+
+	</div>
+	<div class="movie-review">
+		<h2>Отзывы</h2>
+		
+		<form id='form_review'  action="{% url 'add_reveiw_url' slug=movie.url %}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="parent" id="contactparent" value="">	
+			<div class="form-group">
+				<textarea id="contactcomment" name="text" class="form-control" id="exampleFormControlTextarea1" placeholder='Введите сообщение' rows="3"></textarea>
+			</div>
+
+			<p style="float:left;">Комментариев: <b>{{movie.review_set.all.count}}</b></p>
+			<button class="btn_massage btn btn-primary " type="submit">Отправить</button>
+
+		</form>
+
+		<form style="display:none;" id='form_edit_review'  action="{% url 'edit_reveiw_url' slug=movie.url %}" method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				<input type="hidden" name="id" id="contactid" value="">
+				<textarea id="edit_area" name="text" class="form-control" id="exampleFormControlTextarea1" placeholder='Введите сообщение' rows="3"></textarea>
+			</div>
+
+			
+			<a style="float:left;" onclick='cancel_edit()' class="btn btn-danger">Отмена</a>
+			<button  type="submit" type="button" class="btn btn-primary btn_massage">Редактировать</button>
+
+		</form>
+
+
+		{% if movie.review_set.all.count > 0 %}
+			{% for review in movie.get_review %}
+				<div class="cards">
+					<div class="card-header">
+						{{review.name|title}}
+						{% if review.name == request.user  or request.user.is_staff %}
+							<a style="float:right;" onclick="deleteReview('{{review.id}}')">Удалить</a>
+						{% endif %}
+						
+						<p style="float:right; margin-right:10px;">{{review.pub_date}}</p>
+					</div>
+
+					<div class="card-body">
+						<blockquote class="blockquote mb-0">
+							<p>{{review.text}}</p>
+
+						</blockquote>
+					</div>
+					<div class="card-body">
+						<blockquote style="text-align:end;" class="blockquote mb-0">
+							{% if review.name == request.user %}
+								<a  href="#movie-shots" onclick="editReview('{{review.text}}', '{{review.id}}')">Редактировать</a>
+							{% else %}
+								<a href="#movie-shots" onclick="addReview('{{review.name}}', '{{review.id}}')">Ответить</a>	
+							{% endif %}
+
+							
+							
+								
+
+						</blockquote>
+					</div>
+				</div>
+				{% for rev in review.review_set.all %}
+					
+					<div style="margin: 30px 70px 30px 170px;width: 595px; " class="cards">
+						<div class="card-header">
+							Ответил {{rev.name|title}}
+
+							{% if rev.name == request.user or request.user.is_staff %}
+								<a style="float:right;" onclick="deleteReview('{{rev.id}}')" >Удалить</a>
+							{% endif %}
+							
+							<p style="float:right; margin-right:10px;">{{rev.pub_date}}</p>
+						</div>
+
+						<div class="card-body">
+							<blockquote class="blockquote mb-0">
+								<p>{{rev.text}}</p>
+
+							</blockquote>
+						</div>
+						<div class="card-body">
+							<blockquote class="blockquote mb-0">
+							{% if rev.name == request.user %}
+							<a href="#movie-shots" onclick="editReview('{{rev.text}}', '{{rev.id}}')">Редактировать</a>
+								
+							{% endif %}	
+							</blockquote>
+						</div>
+					</div>
+
+				{% endfor %}
+
+
+			{% endfor %}
+		{% else %}
+			<p style="text-align: center; padding-top:30px; font-size:20px;"><b>Отзывов об этом фильме еще нет, будьте первым!</b></p>    
+		{% endif %}
+	</div> 
+	<div class="delete_review" id="delete_review">
+		<h4>Вы уверены что хотите удалить этот отзыв?</h4>
+		<form action="{% url 'delete_reveiw_url' slug=movie.url  %}" method='post' >
+			{% csrf_token %}
+			<input type="hidden" name="id" id="deleteid" value="">
+			<a onclick="cancel_delete()" class="btn btn-danger">Отмена</a>
+			<button  type="submit" type="button" class="btn btn-primary btn_massage">Удалить</button>
+		</form>
+		
+	</div>
+
+	
+</div>
+
+<script>
+	function addReview(name,id){
+		document.getElementById("contactparent").value = id;
+		document.getElementById("contactcomment").innerText = `${ name }, `
+	}
+	function editReview(text,id){
+		var form_add = document.getElementById("form_review");
+		var form_edit = document.getElementById("form_edit_review");
+		form_add.style.display = 'none';
+		form_edit.style.display = 'block';
+		document.getElementById("edit_area").value = text;
+		document.getElementById("contactid").value = id;
+
+	}
+	function cancel_edit(){
+		var form_add = document.getElementById("form_review");
+		var form_edit = document.getElementById("form_edit_review");
+		form_add.style.display = 'block';
+		form_edit.style.display = 'none';
+	}
+	function cancel_delete(){
+		var form_delete = document.getElementById("delete_review");
+		form_delete.style.display = 'none';
+		var body = document.getElementById('body')
+		body.style.overflow='scroll';
+	}
+	function deleteReview(id){
+		var form_delete = document.getElementById("delete_review");
+		form_delete.style.display = 'block';
+		document.getElementById("deleteid").value = id;
+		var body = document.getElementById('body')
+		body.style.overflow='hidden';
+
+		
+	}
+
+
+
+
+	
+</script>	
+{% endblock %}

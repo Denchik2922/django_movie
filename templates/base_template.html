@@ -1,0 +1,73 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="{% static 'css/movies/movie-list_style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/movies/detail-movie_style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/forms/login-form-style.css' %}">
+	<link rel="stylesheet" href="{% static 'font/fontawesome/css/all.css' %}">
+	<title>
+		{% block title %}
+			Movie
+		{% endblock	%}	
+	</title>
+	
+</head>
+<body id='body'>
+	<div id="wrap" class="wrapper">
+		
+
+		{% include "includes/header.html" %}
+		
+		{% include "includes/nav.html" %}
+		
+		<div class="jumper">
+			<ul>
+				{% block main-jumpers %}
+					<li><a href="{% url 'movie_list_url' %}">Главная</a></li>
+				{% endblock %}
+				
+
+				{% block jumpers %}
+					
+				{% endblock %}
+
+			</ul>
+		</div>
+
+			
+
+		{% block content %}
+			НЕТ ФИЛЬМОВ
+		{% endblock %}
+		
+		{% include "includes/paginator.html" %}
+
+		{% include "includes/footer.html" %}
+
+		{% include "includes/register-form.html" %}
+
+		{% include "includes/login-form.html" %}
+
+
+	
+	</div>
+<script>
+	function user_login(){
+		var form_login = document.getElementById("login-form");
+		form_login.style.height = '250px';
+		form_login.style.display = 'block';
+		form_login.style.padding = '20px';
+	}
+</script>
+</body>
+</html>

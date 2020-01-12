@@ -1,0 +1,35 @@
+.login-form{
+	position: fixed;
+	background-color: #f2f3f5;
+	border-radius: 15px;
+	width: 50%;
+	left: 25%;
+	right: 25%;
+	height: 0;
+	overflow: hidden;
+	transition: 0.5s;
+	margin-top: 10px;
+}
+.login-form .form-control{
+	height: 40px;
+}
+.login-form .register:hover{
+	color: #6296fc;
+}
+
+.register-form{
+	position: fixed;
+	background-color: #f2f3f5;
+	border-radius: 15px;
+	width: 50%;
+	left: 25%;
+	right: 25%;
+	height: 0;
+	overflow: hidden;
+	transition: 0.5s;
+	margin-top: 10px;
+}
+.register-form .form-control{
+	height: 40px;
+}
+

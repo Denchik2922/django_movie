@@ -1,0 +1,59 @@
+<nav class="navigat">
+
+	<form class="search_form" action="{% url 'movie_list_url' %}" method="get">
+
+		<input class="input_search" type="text" name="search" placeholder='Поиск по сайту'>
+		<button class="btn_search" type="submit">Поиск</button>
+	</form>
+	<form class="filter_form" id="filter_form" action="{% url 'movie_list_url' %}" method="get">
+		{% if ganres %}
+			<label>Жанр </label>
+		{% endif %}	
+		
+		<ul>
+			{% for ganre in ganres %}
+			
+				<li>
+					
+					
+					<label><input type="radio" value="{{ganre.name}}" name="search" onclick ='document.getElementById("filter_form").submit();' 
+					{% for get in request.GET.dict.values %}
+						{% if get == ganre.name %}
+							checked
+						{% endif %}
+						
+					{% endfor %}
+					 >{{ganre.name}} </label>
+					
+				</li>
+				
+			{% endfor %}
+		</ul>
+		{% if years %}
+			<label>Год </label>
+		{% endif %}
+		
+		<ul>
+			{% for year in years %}
+			
+				<li>
+					
+					<label><input type="radio" value="{{year.year}}" name="year" onclick ='document.getElementById("filter_form").submit();' 
+					{% for get in request.GET.dict.values %}
+						{% if get == year.year|stringformat:'s' %}
+							checked
+						{% endif %}
+						
+					{% endfor %}>{{year.year}} </label>
+					
+				</li>
+				
+			{% endfor %}
+		</ul>
+		
+
+
+
+	</form>
+
+</nav>

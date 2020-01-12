@@ -1,0 +1,129 @@
+.content-detail{
+	grid-area: content;
+	grid-template-areas: 
+		"info info info"
+		"story story story"
+		"shots shots shots"
+		"review review review";
+	
+	
+	margin: 0;
+	
+	
+}
+
+.content-detail .info-movie{
+	grid-area: info;
+	display: grid;
+	height:50vh;
+	grid-template-columns: 1fr 2fr;
+	padding:10px 0 20px 10px; 
+	border-bottom: 1px solid #e6e7e8;
+
+}
+
+.info-movie img{
+	height: 100%; 
+	width: 100%;
+	padding-right: 20px; 
+	
+}
+
+.info-movie .info{
+	font-size: 20px;
+	padding-left: 10px;
+	
+}
+
+
+.story-movie{
+	grid-area: story;
+	padding: 10px;
+	font-size: 18px;
+	border-bottom: 1px solid #e6e7e8;
+}
+
+.movie-shots{
+	grid-area: shots;
+	height: 30vh auto;
+	grid-template-rows: 50px 2fr;
+	grid-template-columns: 1fr 1fr 1fr;
+	padding:10px 0 20px 10px; 
+	border-bottom: 1px solid #e6e7e8;
+}
+
+.movie-shots h2{
+	grid-column: 1/4;
+}
+
+
+.movie-shots img{
+	height: 20vh;
+	width: 100%;
+	padding:0 4px 4px 0; 
+}
+
+
+
+
+.movie-review{
+	grid-area: review;
+
+	padding:10px 10px 20px 10px; 
+	border-bottom: 1px solid #e6e7e8;
+	
+}
+.movie-review h2{
+	text-align: center;
+}	
+.movie-review form{
+	padding: 10px 70px 10px 70px;
+	height: 30vh auto;
+	border-bottom: 1px solid #e6e7e8;
+	text-align: end;
+
+}
+
+.movie-review form .btn_massage{
+	background-color: #0e89c7;
+	color: white;
+}	
+.form-group .form-control{
+	height: 20vh;
+}	
+
+
+.movie-review .cards{
+	background-color: #f5f6f7;
+	margin: 30px 70px 30px 70px; 
+	word-wrap: break-word;
+    width: 695px;
+
+}
+.card-header a:hover{
+	color: #52baff;
+}
+
+
+.delete_review{
+	background: #636362;
+    position: fixed;
+    top: 41%;
+    left: 32%;
+    width: 40%;
+    height: 19%;
+    min-height: 180px;
+    z-index:3;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    display: none;
+    color: white;
+}
+
+.delete_review button{
+	margin-left:20px; 
+}
+.delete_review h4{
+	margin-bottom:20px; 
+}
